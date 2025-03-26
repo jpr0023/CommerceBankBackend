@@ -62,6 +62,7 @@ public class URLSService {
        transfer.setHeaders(headers);
 
        connection.disconnect();
+       System.out.println(transfer);
        return transfer;
 
    }

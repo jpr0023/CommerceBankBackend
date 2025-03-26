@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
+@CrossOrigin("http://localhost:5173")
 public class URLSControllers {
 
     @Autowired
     private URLSService urlsService;
 
-    @GetMapping("/analyze")
+    @PostMapping("/analyze")
     public ResponseEntity<URLSDataTransfer> getURLs(@RequestBody WebsiteDTO website) throws IOException {
         // Try to send back a Response Entity that we found it
         try{
