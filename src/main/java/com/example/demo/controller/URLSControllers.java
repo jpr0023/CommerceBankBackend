@@ -20,7 +20,16 @@ public class URLSControllers {
 
     @GetMapping("/analyze")
     public ResponseEntity<URLSDataTransfer> getURLs(@RequestBody WebsiteDTO website) throws IOException {
+        // Try to send back a Response Entity that we found it
+        try{
         return new ResponseEntity<>(urlsService.grabInfo(website.getWebsite()), HttpStatus.OK);
+
+        }
+//        If we get an exception while running it sends back an error for the front end.
+//        Can be invalid url or something.
+        catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     @CrossOrigin
     @PostMapping("/urls")

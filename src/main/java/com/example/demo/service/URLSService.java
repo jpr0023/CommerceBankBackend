@@ -46,7 +46,7 @@ public class URLSService {
        for (Map.Entry<String, List<String>> entry : test.entrySet()) {
            System.out.println(entry.getKey() + ": " + entry.getValue());
        }
-      //transfer.setHeaders(test);
+       transfer.setHeaders(test);
        return transfer;
 
    }
