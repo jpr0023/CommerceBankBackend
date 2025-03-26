@@ -12,3 +12,4 @@ public interface URLSRepo extends JpaRepository<URLS, Integer> {
     URLS findByurl(String url);
 
 }
+

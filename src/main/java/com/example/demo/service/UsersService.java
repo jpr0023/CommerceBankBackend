@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import com.example.demo.domain.URLS;
 import com.example.demo.domain.Users;
 import com.example.demo.repository.UsersRepo;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,10 @@ public class UsersService {
     UsersRepo usersRepo;
 
     public Users create(Users user) {
+
         return usersRepo.save(user);
     }
+
+
 
 }
