@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.ResponseHeaders;
 import com.example.demo.domain.URLS;
 import com.example.demo.domain.URLSDataTransfer;
 import com.example.demo.repository.URLSRepo;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,21 +34,34 @@ public class URLSService {
 
        transfer.setUrl(foundUrl);
 
-       HttpURLConnection connection = (HttpURLConnection) new URL(foundUrl.getUrl()).openConnection();
 
+       HttpURLConnection connection = (HttpURLConnection) new URL(foundUrl.getUrl()).openConnection();
        connection.setRequestMethod("GET");
-       connection.connect();
+
+       // Initialize
        Map<String, List<String>> test = new HashMap<>();
+
+
+//     Grabbing Response Time
+
+       long startTime = System.currentTimeMillis();
+
        int responseCode = connection.getResponseCode();
+
+       long elapsedTime = System.currentTimeMillis() - startTime;
+       transfer.setResponseCode(responseCode);
+       transfer.setResponseTime(elapsedTime + "ms");
        if (responseCode == HttpURLConnection.HTTP_OK) {
            test = connection.getHeaderFields();
-
        }
 
+        List<ResponseHeaders> headers = new ArrayList<>();
        for (Map.Entry<String, List<String>> entry : test.entrySet()) {
-           System.out.println(entry.getKey() + ": " + entry.getValue());
+           headers.add(new ResponseHeaders(entry.getKey(),entry.getValue()));
        }
-       transfer.setHeaders(test);
+       transfer.setHeaders(headers);
+
+       connection.disconnect();
        return transfer;
 
    }
