@@ -14,6 +14,8 @@ public class URLSDataTransfer {
     int responseCode;
     String responseTime;
     String responseSize;
+    String Server;
+    String ContentType;
     List<ResponseHeaders> headers;
 
 }

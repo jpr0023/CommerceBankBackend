@@ -9,5 +9,5 @@ import java.util.List;
 @Data
 public class ResponseHeaders {
     String key;
-    List<String> value;
+    String value;
 }

@@ -5,9 +5,7 @@ import com.example.demo.domain.WebsiteDTO;
 import com.example.demo.service.URLSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -24,7 +22,6 @@ public class URLSControllers {
         // Try to send back a Response Entity that we found it
         try{
         return new ResponseEntity<>(urlsService.grabInfo(website.getWebsite()), HttpStatus.OK);
-
         }
 //        If we get an exception while running it sends back an error for the front end.
 //        Can be invalid url or something.

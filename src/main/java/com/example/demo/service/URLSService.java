@@ -57,12 +57,31 @@ public class URLSService {
 
         List<ResponseHeaders> headers = new ArrayList<>();
        for (Map.Entry<String, List<String>> entry : test.entrySet()) {
-           headers.add(new ResponseHeaders(entry.getKey(),entry.getValue()));
+           if (entry.getKey() != null){
+                for (String value: entry.getValue()){
+                    if (entry.getKey().equals("Content-Type")){
+                        transfer.setContentType(value);
+                    }
+
+                    else if (entry.getKey().equals("Server")){
+                        transfer.setServer(value);
+                    }
+
+                    else{
+                        headers.add(new ResponseHeaders(entry.getKey(),value));
+                    }
+                }
+           }
        }
+
+       System.out.println("All headers:");
+       for (Map.Entry<String, List<String>> entry : test.entrySet()) {
+           System.out.println(entry.getKey() + ": " + entry.getValue());
+       }
+
        transfer.setHeaders(headers);
 
        connection.disconnect();
-       System.out.println(transfer);
        return transfer;
 
    }
