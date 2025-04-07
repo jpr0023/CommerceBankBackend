@@ -24,10 +24,10 @@ public class URLS {
     @Column
     private String url;
 
-
-    @ManyToMany(mappedBy = "urls")
-    @JsonIgnore
-    private List<Users> users;
+//
+//    @ManyToMany(mappedBy = "urls")
+//    @JsonIgnore
+//    private List<Users> users;
 
 
 

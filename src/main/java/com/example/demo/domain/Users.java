@@ -25,13 +25,13 @@ public class Users {
     @Column
     private String password;
 
-    @ManyToMany
-    @JoinTable(
-            name="user_urls",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name="urls_id")
-    )
-    private List<URLS> urls;
+//    @ManyToMany
+//    @JoinTable(
+//            name="user_urls",
+//            joinColumns = @JoinColumn(name="user_id"),
+//            inverseJoinColumns = @JoinColumn(name="urls_id")
+//    )
+//    private List<URLS> urls;
 
 
 
