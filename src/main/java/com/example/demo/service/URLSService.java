@@ -1,8 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.ResponseHeaders;
-import com.example.demo.domain.URLS;
-import com.example.demo.domain.URLSDataTransfer;
+import com.example.demo.domain.*;
+import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.SavedUrlRepo;
 import com.example.demo.repository.URLSRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,20 +10,20 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class URLSService {
 
-   private URLSRepo urlsRepo;
+    private final CustomerRepository customerRepository;
+    private final SavedUrlRepo savedUrlRepo;
+    private URLSRepo urlsRepo;
 
    public URLSDataTransfer grabInfo(String website) throws IOException {
        URLS foundUrl = urlsRepo.findByurl(website);
        System.out.println(website);
+
        if (foundUrl == null) {
            URLS url = new URLS();
            url.setUrl(website);
@@ -74,15 +74,39 @@ public class URLSService {
            }
        }
 
-       System.out.println("All headers:");
-       for (Map.Entry<String, List<String>> entry : test.entrySet()) {
-           System.out.println(entry.getKey() + ": " + entry.getValue());
-       }
-
        transfer.setHeaders(headers);
 
        connection.disconnect();
        return transfer;
 
+   }
+
+   public void save(int urlId, String username) throws IOException {
+       // Find the Users Account First
+
+       Customer savedCustomer = customerRepository.findByUsername(username).orElse(null);
+
+       if(savedCustomer != null) {
+           // Find the Url for the urlID
+           URLS foundUrl = urlsRepo.findByid(urlId);
+
+
+            // Make a new Saved Url Object
+           if (!savedUrlRepo.existsByCustomerAndUrl(savedCustomer,foundUrl)) {
+               SavedUrl savedUrl = new SavedUrl();
+
+               savedUrl.setUrl(foundUrl);
+               savedUrl.setCustomer(savedCustomer);
+               savedUrlRepo.save(savedUrl);
+               // Add that to the list of Saved Urls for User
+
+               savedCustomer.savedUrls.add(savedUrl);
+           }
+       }
+
+   }
+
+   public URLS getURL(int urlId) throws IOException {
+       return urlsRepo.findById(urlId).orElse(null);
    }
 }

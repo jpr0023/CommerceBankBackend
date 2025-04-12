@@ -16,41 +16,17 @@ public class CustomerService {
 
     @Transactional
     public Customer create(Customer customer) {
-        // Generate a userId if not provided
-        if (customer.getUserId() == null || customer.getUserId().isEmpty()) {
-            customer.setUserId(generateUserId());
-        }
+        customer.setUsername(customer.getUsername().toUpperCase());
         return customerRepository.save(customer);
     }
 
     @Transactional(readOnly = true)  // pass userid to find info
-    public Customer findByUserId(String userId) {
-        return customerRepository.findByuserId(userId).orElse(null);
+    public Customer findByUserName(String username) {
+        return customerRepository.findByUsername(username).orElse(null);
     }
 
     @Transactional   // delete user
-    public boolean deleteByUserId(String userId) {
-        Optional<Customer> customer = customerRepository.findByuserId(userId);
-        if (customer.isPresent()) {
-            customerRepository.delete(customer.get());
-            return true;
-        }
-        return false;
+    public void deleteByUserName(String username) {
+        customerRepository.delete(findByUserName(username));
     }
-
-
-
-
-private String generateUserId() {
-
-    // Generate a random 6-digit code
-    int code = 100000 + (int) (Math.random()*900000);// This ensures a 6-digit number
-    String userId = String.valueOf(code);
-    while (customerRepository.findByuserId(userId).isPresent()) {
-        code = 100000 + (int) (Math.random()*900000);
-        userId = String.valueOf(code);
-    }
-
-    return userId;
-}
 }

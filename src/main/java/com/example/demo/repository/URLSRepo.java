@@ -10,5 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface URLSRepo extends JpaRepository<URLS, Integer> {
 
     URLS findByurl(String url);
+    URLS findByid(int id);
 
 }

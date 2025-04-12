@@ -3,7 +3,8 @@ package com.example.demo.domain;
 import lombok.Data;
 
 @Data
-public class WebsiteDTO {
+public class ObjectDTO {
     private String website;
+    private String userName;
 
 }

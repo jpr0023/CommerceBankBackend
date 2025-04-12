@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.URLSDataTransfer;
-import com.example.demo.domain.WebsiteDTO;
+import com.example.demo.domain.ObjectDTO;
 import com.example.demo.service.URLSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ public class URLSControllers {
     private URLSService urlsService;
 
     @PostMapping("/analyze")
-    public ResponseEntity<URLSDataTransfer> getURLs(@RequestBody WebsiteDTO website) throws IOException {
+    public ResponseEntity<URLSDataTransfer> getURLs(@RequestBody ObjectDTO website) throws IOException {
         // Try to send back a Response Entity that we found it
         try{
         return new ResponseEntity<>(urlsService.grabInfo(website.getWebsite()), HttpStatus.OK);
@@ -28,6 +28,25 @@ public class URLSControllers {
         catch (Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping("/saveUrl/{urlId}")
+    public ResponseEntity<?> saveUrl(@PathVariable int urlId, @RequestBody ObjectDTO username) throws IOException {
+
+        try {
+            urlsService.save(urlId, username.getUserName().toUpperCase());
+            System.out.println("Saved URL: " + urlId);
+            return new ResponseEntity<>("Saved Url",HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @GetMapping("url/{urlId}")
+    public ResponseEntity<?> getUrl(@PathVariable int urlId) throws IOException {
+        return new ResponseEntity<>(urlsService.getURL(urlId), HttpStatus.OK);
     }
 
 

@@ -16,29 +16,30 @@ public class CustomerController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Customer customer) {
-        System.out.println("Registering user: " + customer.getName());
+        System.out.println("Registering user: " + customer.getUsername());
         return new ResponseEntity<>(customerService.create(customer), HttpStatus.CREATED);
     }   // register user
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<?> getUserInfo(@PathVariable String userId) {
-        System.out.println("Getting user info for: " + userId);
-        Customer customer = customerService.findByUserId(userId);
-        if (customer != null) {
-            return new ResponseEntity<>(customer, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+    @GetMapping("/user/{username}")
+    public ResponseEntity<?> getUserInfo(@PathVariable String username) {
+        System.out.println("Getting user info for: " + username);
+        try{
+            return new ResponseEntity<>(customerService.findByUserName(username.toUpperCase()), HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
         }
     }    //  get user info
     //  delete user
-    @DeleteMapping("/user/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable String userId) {
-        System.out.println("Deleting user: " + userId);
-        boolean deleted = customerService.deleteByUserId(userId);
-        if (deleted) {
+    @DeleteMapping("/user/{username}")
+    public ResponseEntity<?> deleteUser(@PathVariable String username) {
+        System.out.println("Deleting user: " + username);
+        try {
+            customerService.deleteByUserName(username.toUpperCase());
             return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
         }
     }   //
 }
