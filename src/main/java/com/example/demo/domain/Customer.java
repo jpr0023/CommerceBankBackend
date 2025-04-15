@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Table
+@Table (name = "customer")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,6 +19,10 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customer_id;
+
+    @Column (nullable = true)
+    private String token;
+
 
     @Column (nullable = false)
     private String username;

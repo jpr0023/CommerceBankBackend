@@ -15,18 +15,35 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     @Transactional
-    public Customer create(Customer customer) {
+    public String create(Customer customer) {
         customer.setUsername(customer.getUsername().toUpperCase());
-        return customerRepository.save(customer);
-    }
 
-    @Transactional(readOnly = true)  // pass userid to find info
-    public Customer findByUserName(String username) {
-        return customerRepository.findByUsername(username).orElse(null);
+        int randomKey = (int) (Math.random() * 1000000);
+
+        while (customerRepository.existsByToken(customer.getToken())) {
+            randomKey = (int) (Math.random() * 1000000);
+        }
+
+        customer.setToken(String.valueOf(randomKey));
+        return customerRepository.save(customer).getToken();
     }
 
     @Transactional   // delete user
-    public void deleteByUserName(String username) {
-        customerRepository.delete(findByUserName(username));
+    public void deleteByKey(String key) {
+        customerRepository.delete(customerRepository.findByToken(key));
+    }
+
+    public String login(String username, String password) {
+        Customer customer = customerRepository.findByUsernameAndPassword(username,password).orElse(null);
+
+        if (customer == null) {
+            throw new RuntimeException("Customer Not Found");
+        }
+
+        return customer.getToken();
+    }
+
+    public Customer findByKey(String key) {
+        return customerRepository.findByToken(key);
     }
 }

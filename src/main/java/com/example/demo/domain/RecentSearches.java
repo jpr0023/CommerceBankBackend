@@ -1,11 +1,14 @@
 package com.example.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.Date;
 
 @Entity
 @Data
@@ -22,14 +25,16 @@ public class RecentSearches {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    @JsonIgnore
-    @ToString.Exclude
+    @JsonBackReference
     private Customer customer;
 
 
     @ManyToOne
     @JoinColumn(name="url_id")
     private URLS url;
+
+    @Column
+    private Date lastUpdated;
 
 
 

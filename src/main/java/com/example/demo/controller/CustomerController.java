@@ -16,30 +16,39 @@ public class CustomerController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Customer customer) {
-        System.out.println("Registering user: " + customer.getUsername());
         return new ResponseEntity<>(customerService.create(customer), HttpStatus.CREATED);
     }   // register user
 
-    @GetMapping("/user/{username}")
-    public ResponseEntity<?> getUserInfo(@PathVariable String username) {
-        System.out.println("Getting user info for: " + username);
+    @GetMapping("/user/{token}")
+    public ResponseEntity<?> getUserInfo(@PathVariable String token) {
+        System.out.println("Getting user info for: " + token);
         try{
-            return new ResponseEntity<>(customerService.findByUserName(username.toUpperCase()), HttpStatus.OK);
+            return new ResponseEntity<>(customerService.findByKey(token), HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
         }
     }    //  get user info
     //  delete user
-    @DeleteMapping("/user/{username}")
-    public ResponseEntity<?> deleteUser(@PathVariable String username) {
-        System.out.println("Deleting user: " + username);
+    @DeleteMapping("/user/{token}")
+    public ResponseEntity<?> deleteUser(@PathVariable String token) {
+        System.out.println("Deleting user: " + token);
         try {
-            customerService.deleteByUserName(username.toUpperCase());
+            customerService.deleteByKey(token);
             return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
         }
-    }   //
+    }
+
+    @PostMapping("/user/login")
+    public ResponseEntity<?> login(@RequestBody Customer customer) {
+        try{
+            return new ResponseEntity<>(customerService.login(customer.getUsername().toUpperCase(), customer.getPassword()), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

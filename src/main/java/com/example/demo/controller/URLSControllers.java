@@ -21,7 +21,7 @@ public class URLSControllers {
     public ResponseEntity<URLSDataTransfer> getURLs(@RequestBody ObjectDTO website) throws IOException {
         // Try to send back a Response Entity that we found it
         try{
-        return new ResponseEntity<>(urlsService.grabInfo(website.getWebsite()), HttpStatus.OK);
+        return new ResponseEntity<>(urlsService.grabInfo(website.getWebsite(), website.getToken()), HttpStatus.OK);
         }
 //        If we get an exception while running it sends back an error for the front end.
 //        Can be invalid url or something.
@@ -30,11 +30,11 @@ public class URLSControllers {
         }
     }
 
-    @PostMapping("/saveUrl/{urlId}")
-    public ResponseEntity<?> saveUrl(@PathVariable int urlId, @RequestBody ObjectDTO username) throws IOException {
+    @PostMapping("/saveUrl/{urlId}/{token}")
+    public ResponseEntity<?> saveUrl(@PathVariable int urlId, @PathVariable String token) throws IOException {
 
         try {
-            urlsService.save(urlId, username.getUserName().toUpperCase());
+            urlsService.save(urlId, token);
             System.out.println("Saved URL: " + urlId);
             return new ResponseEntity<>("Saved Url",HttpStatus.OK);
         }

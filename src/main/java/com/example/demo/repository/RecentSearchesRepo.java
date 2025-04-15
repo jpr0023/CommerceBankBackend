@@ -1,15 +1,13 @@
 package com.example.demo.repository;
 
-
+import com.example.demo.domain.Customer;
+import com.example.demo.domain.RecentSearches;
 import com.example.demo.domain.URLS;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
-public interface URLSRepo extends JpaRepository<URLS, Integer> {
+public interface RecentSearchesRepo extends JpaRepository<RecentSearches, Long> {
 
-    URLS findByurlValue(String urlValue);
-    URLS findByid(int id);
 
 }

@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.domain.*;
 import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.RecentSearchesRepo;
 import com.example.demo.repository.SavedUrlRepo;
 import com.example.demo.repository.URLSRepo;
 import lombok.AllArgsConstructor;
@@ -19,14 +20,15 @@ public class URLSService {
     private final CustomerRepository customerRepository;
     private final SavedUrlRepo savedUrlRepo;
     private URLSRepo urlsRepo;
+    private final RecentSearchesRepo recentSearchesRepo;
 
-   public URLSDataTransfer grabInfo(String website) throws IOException {
-       URLS foundUrl = urlsRepo.findByurl(website);
+   public URLSDataTransfer grabInfo(String website, String token) throws IOException {
+       URLS foundUrl = urlsRepo.findByurlValue(website);
        System.out.println(website);
 
        if (foundUrl == null) {
            URLS url = new URLS();
-           url.setUrl(website);
+           url.setUrlValue(website);
            foundUrl = urlsRepo.save(url);
        }
 
@@ -35,7 +37,7 @@ public class URLSService {
        transfer.setUrl(foundUrl);
 
 
-       HttpURLConnection connection = (HttpURLConnection) new URL(foundUrl.getUrl()).openConnection();
+       HttpURLConnection connection = (HttpURLConnection) new URL(foundUrl.getUrlValue()).openConnection();
        connection.setRequestMethod("GET");
 
        // Initialize
@@ -77,14 +79,27 @@ public class URLSService {
        transfer.setHeaders(headers);
 
        connection.disconnect();
+
+       Customer customer = customerRepository.findByToken(token);
+
+
+       RecentSearches recentSearches = new RecentSearches();
+
+       recentSearches.setCustomer(customer);
+       recentSearches.setUrl(foundUrl);
+       recentSearches.setLastUpdated(new Date());
+
+       customer.getRecentSearches().add(recentSearches);
+
+       recentSearchesRepo.save(recentSearches);
        return transfer;
 
    }
 
-   public void save(int urlId, String username) throws IOException {
+   public void save(int urlId, String token) throws IOException {
        // Find the Users Account First
 
-       Customer savedCustomer = customerRepository.findByUsername(username).orElse(null);
+       Customer savedCustomer = customerRepository.findByToken(token);
 
        if(savedCustomer != null) {
            // Find the Url for the urlID
