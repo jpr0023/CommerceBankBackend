@@ -11,4 +11,5 @@ public interface SavedUrlRepo extends JpaRepository<SavedUrl, Long> {
 
     boolean existsByCustomerAndUrl(Customer customer, URLS url);
 
+
 }
