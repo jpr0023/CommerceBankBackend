@@ -1,6 +1,5 @@
 package com.example.demo.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,7 +31,7 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer")
     @JsonManagedReference
-    public List<SavedUrl> savedUrls;
+    public List<SavedSearches> savedUrls;
 
     @OneToMany(mappedBy = "customer")
     @JsonManagedReference

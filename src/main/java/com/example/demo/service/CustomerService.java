@@ -2,11 +2,10 @@ package com.example.demo.service;
 
 import com.example.demo.domain.Customer;
 import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.RecentSearchesRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -46,4 +45,5 @@ public class CustomerService {
     public Customer findByKey(String key) {
         return customerRepository.findByToken(key);
     }
+
 }

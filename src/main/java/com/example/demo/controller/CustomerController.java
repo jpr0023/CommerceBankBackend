@@ -50,5 +50,4 @@ public class CustomerController {
             return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
         }
     }
-
 }

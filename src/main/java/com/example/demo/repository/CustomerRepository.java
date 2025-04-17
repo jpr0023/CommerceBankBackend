@@ -13,4 +13,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Optional<Customer> findByUsernameAndPassword(String username, String password);
 
     Customer findByToken(String token);
+
 }
