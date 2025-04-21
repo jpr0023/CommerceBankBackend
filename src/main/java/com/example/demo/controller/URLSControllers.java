@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.URLSDataTransfer;
-import com.example.demo.domain.ObjectDTO;
+import com.example.demo.DTOs.URLSDataTransfer;
+import com.example.demo.DTOs.ObjectDTO;
 import com.example.demo.service.URLSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

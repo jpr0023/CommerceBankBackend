@@ -1,5 +1,7 @@
-package com.example.demo.domain;
+package com.example.demo.DTOs;
 
+import com.example.demo.domain.ResponseHeaders;
+import com.example.demo.domain.URLS;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

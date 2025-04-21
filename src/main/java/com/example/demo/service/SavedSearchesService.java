@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.DTOs.URLSDataTransfer;
 import com.example.demo.domain.*;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.RecentSearchesRepo;

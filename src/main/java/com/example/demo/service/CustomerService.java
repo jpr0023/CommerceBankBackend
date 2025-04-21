@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
+import com.example.demo.DTOs.SearchesDTO;
 import com.example.demo.domain.Customer;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.RecentSearchesRepo;
+import com.example.demo.repository.SavedSearchesRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final RecentSearchesRepo recentSearchesRepo;
+    private final SavedSearchesRepo savedSearchesRepo;
 
     @Transactional
     public String create(Customer customer) {
@@ -44,6 +48,17 @@ public class CustomerService {
 
     public Customer findByKey(String key) {
         return customerRepository.findByToken(key);
+    }
+
+    public SearchesDTO getSearches(String token) {
+        SearchesDTO searchesDTO = new SearchesDTO();
+
+        Customer customer = customerRepository.findByToken(token);
+
+        searchesDTO.setRecentSearches(recentSearchesRepo.getRecentSearchesByCustomerId(customer.getCustomer_id()));
+        searchesDTO.setSavedSearches(savedSearchesRepo.getSavedSearchesByCustomer(customer.getCustomer_id(),10));
+
+        return searchesDTO;
     }
 
 }

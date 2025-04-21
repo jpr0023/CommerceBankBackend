@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.domain.ResponseHeaders;
 import com.example.demo.domain.URLS;
-import com.example.demo.domain.URLSDataTransfer;
+import com.example.demo.DTOs.URLSDataTransfer;
 import com.example.demo.repository.URLSRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

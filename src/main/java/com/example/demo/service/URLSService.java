@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.DTOs.URLSDataTransfer;
 import com.example.demo.domain.*;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.RecentSearchesRepo;
@@ -9,8 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.*;
 
 @Service
@@ -48,6 +47,7 @@ public class URLSService {
         }
        recentSearches.setLastUpdated(new Date());
        recentSearchesRepo.save(recentSearches);
+       System.out.println(transfer);
        return transfer;
 
    }

@@ -44,10 +44,20 @@ public class CustomerController {
 
     @PostMapping("/user/login")
     public ResponseEntity<?> login(@RequestBody Customer customer) {
+        System.out.println("Login: " + customer);
         try{
             return new ResponseEntity<>(customerService.login(customer.getUsername().toUpperCase(), customer.getPassword()), HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>("User Not Found", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/user/searches/{token}")
+    public ResponseEntity<?> getSearches(@PathVariable String token) {
+        try{
+            return new ResponseEntity<>(customerService.getSearches(token), HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("No User Found!",HttpStatus.NOT_FOUND);
         }
     }
 }
