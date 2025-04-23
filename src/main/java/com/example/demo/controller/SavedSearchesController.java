@@ -36,22 +36,22 @@ public class SavedSearchesController {
     }
 
 
-    @PutMapping("/rename/{token}/{id}")
-    public ResponseEntity<?> rename(@PathVariable String token, @PathVariable String id, @RequestBody String name) {
-        int urlId = Integer.parseInt(id);
+    @PutMapping("/rename/{id}")
+    public ResponseEntity<?> rename(@PathVariable String id, @RequestBody String name) {
+        long urlId = Integer.parseInt(id);
         try{
-            savedSearchesService.rename(token,urlId,name);
+            savedSearchesService.rename(urlId,name);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @DeleteMapping("delete/{token}/{id}")
-    public ResponseEntity<?> delete(@PathVariable String token, @PathVariable String id) {
-        int urlId = Integer.parseInt(id);
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        long savedSearchId = Integer.parseInt(id);
         try{
-            savedSearchesService.deleteSavedSearch(token,urlId);
+            savedSearchesService.deleteSavedSearch(savedSearchId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

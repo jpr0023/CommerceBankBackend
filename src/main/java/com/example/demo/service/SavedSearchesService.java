@@ -47,14 +47,14 @@ public class SavedSearchesService {
         return urlsDataTransfer;
     }
 
-    public void rename(String token, int id, String name){
-        SavedSearches savedSearch = savedSearchesRepo.getSavedSearch(customerRepository.findByToken(token).getCustomer_id(),id);
+    public void rename(long id, String name){
+        SavedSearches savedSearch = savedSearchesRepo.getReferenceById(id);
         savedSearch.setUrlName(name);
         savedSearchesRepo.save(savedSearch);
     }
 
-    public void deleteSavedSearch(String token, int id){
-        SavedSearches match = savedSearchesRepo.getSavedSearch(customerRepository.findByToken(token).getCustomer_id(),id);
+    public void deleteSavedSearch(long id) {
+        SavedSearches match = savedSearchesRepo.getReferenceById(id);
         savedSearchesRepo.delete(match);
     }
 

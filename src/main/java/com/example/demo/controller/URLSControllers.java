@@ -30,8 +30,8 @@ public class URLSControllers {
         }
     }
 
-    @PostMapping("/saveUrl/{urlId}/{token}")
-    public ResponseEntity<?> saveUrl(@PathVariable int urlId, @PathVariable String token) throws IOException {
+    @GetMapping("/saveUrl/{token}/{urlId}")
+    public ResponseEntity<?> saveUrl(@PathVariable int urlId, @PathVariable String token){
 
         try {
             urlsService.save(urlId, token);
@@ -44,7 +44,7 @@ public class URLSControllers {
 
     }
 
-    @GetMapping("url/{urlId}")
+    @GetMapping("/url/{urlId}")
     public ResponseEntity<?> getUrl(@PathVariable int urlId) throws IOException {
         return new ResponseEntity<>(urlsService.getURL(urlId), HttpStatus.OK);
     }
