@@ -33,7 +33,7 @@ public class SavedSearchesService {
 
 
     public URLSDataTransfer rescan(String token, int id) throws IOException {
-        URLSDataTransfer urlsDataTransfer = searchService.analayze(id);
+        URLSDataTransfer urlsDataTransfer = searchService.analyze(id);
         Customer customer = customerRepository.findByToken(token);
         RecentSearches recentSearches = recentSearchesRepo.getRecentSearchesByCustomerAndURl(customer.getCustomer_id(), id);
         if (recentSearches == null) {

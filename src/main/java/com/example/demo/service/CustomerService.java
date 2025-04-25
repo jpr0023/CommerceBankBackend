@@ -28,7 +28,8 @@ public class CustomerService {
         }
 
         customer.setToken(String.valueOf(randomKey));
-        return customerRepository.save(customer).getToken();
+        customerRepository.save(customer);
+        return String.valueOf(randomKey);
     }
 
     @Transactional   // delete user

@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
 
 @Service
@@ -31,7 +33,7 @@ public class URLSService {
            url.setUrlValue(website);
            foundUrl = urlsRepo.save(url);
        }
-       URLSDataTransfer transfer = searchService.analayze(foundUrl.getId());
+       URLSDataTransfer transfer = searchService.analyze(foundUrl.getId());
 
        Customer customer = customerRepository.findByToken(token);
 
@@ -47,7 +49,6 @@ public class URLSService {
         }
        recentSearches.setLastUpdated(new Date());
        recentSearchesRepo.save(recentSearches);
-       System.out.println(transfer);
        return transfer;
 
    }

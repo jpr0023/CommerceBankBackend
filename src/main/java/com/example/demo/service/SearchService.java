@@ -1,11 +1,11 @@
 package com.example.demo.service;
 
+import org.springframework.stereotype.Service;
 import com.example.demo.domain.ResponseHeaders;
 import com.example.demo.domain.URLS;
 import com.example.demo.DTOs.URLSDataTransfer;
 import com.example.demo.repository.URLSRepo;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -20,7 +20,7 @@ import java.util.Map;
 public class SearchService {
     private final URLSRepo urlsRepo;
 
-    public URLSDataTransfer analayze(int url_id) throws IOException {
+    public URLSDataTransfer analyze(int url_id) throws IOException {
         URLSDataTransfer transferData = new URLSDataTransfer();
         URLS foundUrl = urlsRepo.findById(url_id).orElse(null);
         transferData.setUrl(foundUrl);
