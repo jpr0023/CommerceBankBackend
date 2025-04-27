@@ -36,4 +36,8 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     @JsonManagedReference
     public List<RecentSearches> recentSearches;
+
+    @OneToMany(mappedBy="customer")
+    @JsonManagedReference
+    public List<DeletedSearches> deletedSearches;
 }

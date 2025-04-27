@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
 import java.util.*;
 
@@ -80,5 +81,19 @@ public class URLSService {
 
    public URLS getURL(int urlId) throws IOException {
        return urlsRepo.findById(urlId).orElse(null);
+   }
+
+   public boolean validate(String website){
+       if (!website.startsWith("https://")){
+           website = "https://" + website;
+       }
+
+       try {
+           URL url = new java.net.URL(website);
+           InetAddress.getByName(url.getHost());
+           return true;
+       } catch (Exception e) {
+           return false;
+       }
    }
 }

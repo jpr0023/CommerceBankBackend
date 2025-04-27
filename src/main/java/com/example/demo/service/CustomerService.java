@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.DTOs.SearchesDTO;
 import com.example.demo.domain.Customer;
 import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.DeletedSearchRepo;
 import com.example.demo.repository.RecentSearchesRepo;
 import com.example.demo.repository.SavedSearchesRepo;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final RecentSearchesRepo recentSearchesRepo;
     private final SavedSearchesRepo savedSearchesRepo;
+    private final DeletedSearchRepo deletedSearchRepo;
 
     @Transactional
     public String create(Customer customer) {
@@ -58,7 +60,7 @@ public class CustomerService {
 
         searchesDTO.setRecentSearches(recentSearchesRepo.getRecentSearchesByCustomerId(customer.getCustomer_id()));
         searchesDTO.setSavedSearches(savedSearchesRepo.getSavedSearchesByCustomer(customer.getCustomer_id(),10));
-
+        searchesDTO.setDeletedSearches(deletedSearchRepo.getDeletedSearchesBy(customer.getCustomer_id()));
         return searchesDTO;
     }
 

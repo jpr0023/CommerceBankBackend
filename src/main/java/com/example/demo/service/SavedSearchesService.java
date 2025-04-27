@@ -2,11 +2,9 @@ package com.example.demo.service;
 
 import com.example.demo.DTOs.URLSDataTransfer;
 import com.example.demo.domain.*;
-import com.example.demo.repository.CustomerRepository;
-import com.example.demo.repository.RecentSearchesRepo;
-import com.example.demo.repository.SavedSearchesRepo;
-import com.example.demo.repository.URLSRepo;
+import com.example.demo.repository.*;
 import lombok.AllArgsConstructor;
+import org.hibernate.sql.Delete;
 import org.springframework.stereotype.Service;
 
 
@@ -23,10 +21,10 @@ public class SavedSearchesService {
     private final RecentSearchesRepo recentSearchesRepo;
     private final URLSRepo urlsRepo;
     private final SearchService searchService;
+    private final DeletedSearchRepo deletedSearchRepo;
 
     public List<SavedSearches> getSavedSearches(String token, int limit) {
         Long customerId = customerRepository.findByToken(token).getCustomer_id();
-        System.out.println(customerId);
 
         return savedSearchesRepo.getSavedSearchesByCustomer(customerId, limit);
     }
@@ -55,6 +53,22 @@ public class SavedSearchesService {
 
     public void deleteSavedSearch(long id) {
         SavedSearches match = savedSearchesRepo.getReferenceById(id);
+        Customer customer = match.getCustomer();
+        DeletedSearches deletedSearch = deletedSearchRepo.ifExists(match.getCustomer().getCustomer_id(), match.getUrl().getId()).orElse(null);
+        if (deletedSearch == null) {
+            deletedSearch = new DeletedSearches();
+            deletedSearch.setCustomer(match.getCustomer());
+            deletedSearch.setUrl(match.getUrl());
+
+            if (match.getUrlName() != null) {
+                deletedSearch.setUrlName(match.getUrlName());
+            }
+
+            deletedSearchRepo.save(deletedSearch);
+        }
+
+        customer.getDeletedSearches().add(deletedSearch);
+
         savedSearchesRepo.delete(match);
     }
 

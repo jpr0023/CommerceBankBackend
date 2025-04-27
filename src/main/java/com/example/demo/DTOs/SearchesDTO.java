@@ -1,5 +1,6 @@
 package com.example.demo.DTOs;
 
+import com.example.demo.domain.DeletedSearches;
 import com.example.demo.domain.RecentSearches;
 import com.example.demo.domain.SavedSearches;
 import lombok.AllArgsConstructor;
@@ -15,4 +16,5 @@ public class SearchesDTO {
 
     List<RecentSearches> recentSearches;
     List<SavedSearches> savedSearches;
+    List<DeletedSearches> deletedSearches;
 }

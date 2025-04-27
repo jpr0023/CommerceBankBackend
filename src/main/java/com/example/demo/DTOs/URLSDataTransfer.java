@@ -17,7 +17,8 @@ public class URLSDataTransfer {
     String responseTime;
     String responseSize;
     String Server;
-    String ContentType;
+    String CipherSuite;
     List<ResponseHeaders> headers;
+    List<CertificateInfoDTO> certificateInfo;
 
 }

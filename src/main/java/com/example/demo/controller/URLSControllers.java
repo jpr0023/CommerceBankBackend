@@ -49,6 +49,13 @@ public class URLSControllers {
         return new ResponseEntity<>(urlsService.getURL(urlId), HttpStatus.OK);
     }
 
-
-
+    @PostMapping("/url/validate")
+    public ResponseEntity<?> validateUrl(@RequestBody ObjectDTO website) throws IOException {
+        if (urlsService.validate(website.getWebsite())){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
