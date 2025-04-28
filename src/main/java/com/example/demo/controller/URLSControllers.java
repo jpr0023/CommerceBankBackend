@@ -18,7 +18,11 @@ public class URLSControllers {
     private URLSService urlsService;
 
     @PostMapping("/analyze")
-    public ResponseEntity<URLSDataTransfer> getURLs(@RequestBody ObjectDTO website) throws IOException {
+    public ResponseEntity<?> getURLs(@RequestBody ObjectDTO website) throws IOException {
+
+        if (!urlsService.validate(website.getWebsite())){
+            return  new ResponseEntity<>("Invalid Url",HttpStatus.BAD_REQUEST);
+        }
         // Try to send back a Response Entity that we found it
         try{
         return new ResponseEntity<>(urlsService.grabInfo(website.getWebsite(), website.getToken()), HttpStatus.OK);

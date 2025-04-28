@@ -10,8 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 
@@ -84,16 +83,34 @@ public class URLSService {
    }
 
    public boolean validate(String website){
-       if (!website.startsWith("https://")){
-           website = "https://" + website;
+           List<String> allowedEndings = Arrays.asList("com", "gov", "co", "edu");
+
+           if (website == null || website.isEmpty()) {
+               return false;
+           }
+
+           if (!website.startsWith("https://") && !website.startsWith("http://")) {
+               website = "https://" + website;
+           }
+
+           try {
+               URL url = new URL(website);
+
+               if (website.startsWith(".") || website.endsWith(".") || !website.contains(".")) {
+                   return false;
+               }
+
+               String[] websiteParts = website.split("\\.");
+               if (websiteParts.length < 2) {
+                   return false;
+               }
+
+               String tld = websiteParts[websiteParts.length - 1].toLowerCase();
+               return allowedEndings.contains(tld);
+           } catch (MalformedURLException e) {
+               System.out.println("Malformed URL");
+               return false;
+           }
        }
 
-       try {
-           URL url = new java.net.URL(website);
-           InetAddress.getByName(url.getHost());
-           return true;
-       } catch (Exception e) {
-           return false;
-       }
    }
-}
