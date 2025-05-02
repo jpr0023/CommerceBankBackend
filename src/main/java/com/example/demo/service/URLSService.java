@@ -83,8 +83,7 @@ public class URLSService {
    }
 
    public boolean validate(String website){
-           List<String> allowedEndings = Arrays.asList("com", "gov", "co", "edu");
-
+           List<String> allowedEndings = Arrays.asList("com", "gov", "co", "edu","net","ca","org");
            if (website == null || website.isEmpty()) {
                return false;
            }
@@ -92,20 +91,19 @@ public class URLSService {
            if (!website.startsWith("https://") && !website.startsWith("http://")) {
                website = "https://" + website;
            }
-
            try {
                URL url = new URL(website);
 
                if (website.startsWith(".") || website.endsWith(".") || !website.contains(".")) {
                    return false;
                }
-
                String[] websiteParts = website.split("\\.");
                if (websiteParts.length < 2) {
                    return false;
                }
 
                String tld = websiteParts[websiteParts.length - 1].toLowerCase();
+
                return allowedEndings.contains(tld);
            } catch (MalformedURLException e) {
                System.out.println("Malformed URL");

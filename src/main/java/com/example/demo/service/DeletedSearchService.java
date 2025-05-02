@@ -25,11 +25,9 @@ public class DeletedSearchService {
 
     public void recover(String deleteId, String token) {
         try {
-            // 1. Parse the delete id
             int deletedSearchId = Integer.parseInt(deleteId);
             System.out.println("Recovering delete ID: " + deletedSearchId);
 
-            // 2. Find the customer by token
             Customer customer = customerRepository.findByToken(token);
             if (customer == null) {
                 System.out.println("No customer found with token: " + token);
@@ -37,7 +35,6 @@ public class DeletedSearchService {
             }
             System.out.println("Found customer ID: " + customer.getCustomer_id());
 
-            // 3. Find the deleted search for this customer
             Optional<DeletedSearches> optionalDeletedSearch = deletedSearchRepo.ifExists(customer.getCustomer_id(), deletedSearchId);
             if (optionalDeletedSearch.isEmpty()) {
                 System.out.println("No deleted search found with ID: " + deletedSearchId + " for customer ID: " + customer.getCustomer_id());

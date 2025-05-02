@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:5173") // Assuming your frontend runs on this port
+@CrossOrigin(origins = "http://localhost:5173")
 public class CustomerController {
 
     private final CustomerService customerService;
